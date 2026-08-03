@@ -6,28 +6,17 @@
 
 ---
 
-## 🔑 REMINDER FOR NEXT CHAT SESSION
+## ✅ ARCHITECTURE DECISION: No Riot API
 
-**Harsh owes an API key** to make this app fully production-grade.
+**Decided:** Vod Tracker is pure video analysis only. No external APIs, no account linking.
 
-Ask him for it at the start of the next conversation:
+- Upload a VOD → OpenCV analyzes it → get results
+- Map detected from video background colors
+- Agent detected from HUD portrait colors  
+- Crosshair detected from vivid pixel clusters near screen center
+- Works on anyone's footage, any game mode, any time
 
-> "Hey, you said you'd give me an API key to upgrade Vod Tracker from mock to real production — do you have it now?"
-
-**What the key is for:**
-The app currently uses OpenCV hue-based detection for map/agent/crosshair (real, not mock).
-To take it to the next level it needs one or more of these:
-- **Riot Games API key** → pull actual match data (map, agent, round info) tied to the player's Riot ID — eliminates ALL guesswork from video detection, gives exact data
-- **OpenAI / Vision API key** (optional) → use GPT-4 Vision to describe what's wrong with crosshair placement in plain English, frame by frame
-
-With the Riot API key specifically, the app can:
-1. Ask user for their Riot ID (e.g. `harsh#NA1`)
-2. Pull their last 20 matches from Riot's API (map, agent, outcome, stats)
-3. Match the VOD video to the correct game automatically
-4. Get exact per-round positioning data
-5. Give pinpoint accurate improvement advice based on real match context
-
-**Without the key** everything still works — OpenCV detects map/agent from the video itself — just less precise than reading it directly from Riot's servers.
+**Riot API was considered and rejected** — not needed for crosshair placement analysis.
 
 ---
 
