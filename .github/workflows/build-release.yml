@@ -18,9 +18,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: 'frontend/package-lock.json'
+          node-version: '18.20.8'
 
       - name: Configure npm registry
         run: npm config set registry https://registry.npmjs.org/
