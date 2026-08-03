@@ -22,13 +22,37 @@ jobs:
           cache: 'npm'
           cache-dependency-path: 'frontend/package-lock.json'
 
+      - name: Configure npm registry
+        run: npm config set registry https://registry.npmjs.org/
+        shell: powershell
+
+      - name: Clear npm cache
+        run: npm cache clean --force
+        shell: powershell
+
       - name: Install dependencies
         working-directory: ./frontend
-        run: npm install
+        run: npm install --legacy-peer-deps
+        shell: powershell
+        env:
+          npm_config_registry: https://registry.npmjs.org/
 
       - name: Build desktop app
         working-directory: ./frontend
         run: npm run build:desktop
+        shell: powershell
+
+      - name: Check for build output
+        run: |
+          if (Test-Path "frontend/dist/*.exe") {
+            Write-Host "Installer file found"
+            Get-Item "frontend/dist/*.exe" | ForEach-Object { Write-Host $_.FullName }
+          } else {
+            Write-Host "ERROR: No .exe file found in frontend/dist/"
+            Get-ChildItem -Recurse frontend/
+            exit 1
+          }
+        shell: powershell
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
