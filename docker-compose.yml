@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: vod-tracker-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - ENV=production
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+      - TEMP_DIR=/tmp/vod-tracker
+      - LOG_LEVEL=INFO
+      - MAX_VIDEO_SIZE=2147483648
+      - FRAME_SAMPLE_RATE=5
+    volumes:
+      - vod-tracker-temp:/tmp/vod-tracker
+      - vod-tracker-logs:/app/logs
+    command: python main.py
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: vod-tracker-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://backend:8000
+      - NODE_ENV=production
+    depends_on:
+      backend:
+        condition: service_healthy
+    command: npm run start
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  vod-tracker-temp:
+    driver: local
+  vod-tracker-logs:
+    driver: local
+
+networks:
+  default:
+    name: vod-tracker-network

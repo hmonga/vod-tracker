@@ -1,0 +1,96 @@
+{
+  "name": "vod-tracker",
+  "version": "1.0.0",
+  "description": "Valorant Crosshair Placement Analyzer",
+  "private": true,
+  "main": "electron-main.js",
+  "homepage": "./",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build && next export",
+    "build:desktop": "cross-env BUILD_FOR_ELECTRON=true next build && cross-env BUILD_FOR_ELECTRON=true electron-builder --win --publish=never",
+    "build:desktop:publish": "cross-env BUILD_FOR_ELECTRON=true next build && cross-env BUILD_FOR_ELECTRON=true electron-builder --win --publish=always",
+    "start": "next start",
+    "electron": "electron .",
+    "electron-dev": "concurrently \"npm run dev\" \"wait-on http://localhost:3000 && electron .\"",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "next": "^14.0.0",
+    "framer-motion": "^10.16.12",
+    "@heroicons/react": "^2.0.18",
+    "@radix-ui/react-primitives": "^1.3.0",
+    "@headlessui/react": "^1.7.17",
+    "react-hook-form": "^7.48.0",
+    "zod": "^3.22.4",
+    "@hookform/resolvers": "^3.3.4",
+    "zustand": "^4.4.2",
+    "@tanstack/react-query": "^5.25.0",
+    "axios": "^1.6.2",
+    "react-hot-toast": "^2.4.1",
+    "react-player": "^2.13.0",
+    "recharts": "^2.10.3",
+    "clsx": "^2.0.0",
+    "tailwind-merge": "^2.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/react": "^18.2.37",
+    "@types/react-dom": "^18.2.15",
+    "typescript": "^5.3.3",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.3.6",
+    "prettier": "^3.1.0",
+    "eslint": "^8.55.0",
+    "eslint-config-next": "^14.0.0",
+    "electron": "^27.0.0",
+    "electron-builder": "^24.6.4",
+    "electron-is-dev": "^2.0.0",
+    "concurrently": "^8.2.2",
+    "wait-on": "^7.0.1",
+    "cross-env": "^7.0.3"
+  },
+  "build": {
+    "appId": "com.vodtracker.app",
+    "productName": "Vod Tracker",
+    "files": [
+      "out/**/*",
+      "electron-main.js",
+      "preload.js",
+      "node_modules/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        },
+        "portable"
+      ],
+      "certificateFile": null,
+      "certificatePassword": null,
+      "signingHashAlgorithms": [
+        "sha256"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Vod Tracker"
+    }
+  }
+}
+
