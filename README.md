@@ -2,6 +2,12 @@
 
 A modern, AI-powered desktop application that analyzes Valorant gameplay videos and provides detailed feedback on crosshair placement quality, weak areas, and improvement recommendations.
 
+## 📥 Download
+
+**[📦 Download Latest Version (ZIP)](https://github.com/hmonga/vod-tracker/archive/refs/heads/main.zip)**
+
+Simply click the link above to download the complete app. Extract and run `build-installer.bat` (Windows) or `setup.sh` (macOS/Linux) to get started!
+
 ## 🎮 Features
 
 ✨ **Instant Analysis** - Upload a video and get comprehensive placement analysis in minutes
